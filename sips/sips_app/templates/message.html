@@ -50,13 +50,13 @@
             <strong>Admin:</strong> Welcome! How can I assist you today?
         </div>
   
-        <div class="input-container">
+        <form class="input-container" method="post">{% csrf_token %}
 
             <label for="message">Message:</label>
             <input type="text" placeholder="Type your message" id="message">
             <input type="submit" value="Send">
 
-        </div>
+        </form>
 
     </div>
 
