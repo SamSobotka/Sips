@@ -49,12 +49,14 @@
         <div class="message">
             <strong>Admin:</strong> Welcome! How can I assist you today?
         </div>
-  
+  <h
         <div class="input-container">
 
-            <label for="message">Message:</label>
-            <input type="text" placeholder="Type your message" id="message">
-            <input type="submit" value="Send">
+     <form action="{% url 'profile' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Send Message">
+    </form>
 
         </div>
 
