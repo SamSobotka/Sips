@@ -31,6 +31,18 @@
         </div>
 
     </header>
+    
+    <h1>Create Username</h1>
+    <form action="{% url 'create_username' %}" method="post">
+        {% csrf_token %}
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required><br>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required><br>
+
+        <input type="submit" value="Create Username">
+    </form>
 
     <form method="post"> {% csrf_token %}
 
