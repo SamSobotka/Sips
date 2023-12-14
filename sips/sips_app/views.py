@@ -47,8 +47,16 @@ def message(request):  # in progress - Gianna
         'user_themes': get_user_themes(request),
         'selected_theme': request.session.get(key='selected_theme')
     }
-    return HttpResponse(template.render(context, request))
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.cleaned_data['message']
+            return HttpResponse( message)
+    else:
+        form = MessageForm()
 
+    return render(request, 'profile.html', {'form': form})
+ return HttpResponse(template.render(context, request))
 
 def password_reset(request):
     template = loader.get_template('registration/password_reset.html')
@@ -68,12 +76,27 @@ def post(request):  # in progress - Zach
 
 @login_required
 def profile(request):  # in progress - Gianna
+template = loader.get_template('profile.html')
+    context = {
+        'user_themes': get_user_themes(request),
+        'selected_theme': request.session.get(key='selected_theme')
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+
+        if not first_name or not last_name:
+            return HttpResponse("Please enter valid first and last names.")
+
+        username = first_name[0].lower() + last_name[-1].lower()
+
+        return HttpResponse("Your username is: " + username)
     template = loader.get_template('profile.html')
     context = {
         'user_themes': get_user_themes(request),
         'selected_theme': request.session.get(key='selected_theme')
     }
-    return HttpResponse(template.render(context, request))
+   
 
 
 class LoginView(views.LoginView):
@@ -98,7 +121,7 @@ def register(request):  # in-progress 💀 - Me - fixed!
         return redirect('/home/')
 
     return HttpResponse(template.render(context, request))
-
+}
 
 def about(request):
     template = loader.get_template('about.html')
