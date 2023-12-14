@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
+    <title>Messaging</title>
+
+    {% if user_themes %}
+    	{% for theme in user_themes %}
+            {% if theme == selected_theme %}
+            	<link rel="stylesheet" href="{% static ''|add:theme %}.css">
+            {% endif %}
+    	{% endfor %}
+    {% endif %}
+</head>
+<body>
+    <header class="section">
+
+        <div style="text-align: center">
+
+            <nav class="clearfix">
+
+                <ul>
+
+                    <li><a href="../feed/">Home</a></li>
+                    <li><a href="../message/">Messaging</a></li>
+                    <li><a href="../profile/">Profile</a></li>
+                    <li><a href="#">Sips+</a></li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <div class="container">
+
+        <div class="message">Welcome to the messaging page!</div>
+        <!-- Django stuff from database goes here -->
+        <div class="message user-message">
+            <strong>User:</strong> Hello there!
+        </div>
+  
+        <div class="message">
+            <strong>Admin:</strong> Welcome! How can I assist you today?
+        </div>
+  
+        <div class="input-container">
+
+            <label for="message">Message:</label>
+            <input type="text" placeholder="Type your message" id="message">
+            <input type="submit" value="Send">
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+

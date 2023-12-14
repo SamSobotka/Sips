@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 900px)">
+
+    <title>Profile</title>
+
+    {% if user_themes %}
+    	{% for theme in user_themes %}
+            {% if theme == selected_theme %}
+            	<link rel="stylesheet" href="{% static ''|add:theme %}.css">
+            {% endif %}
+    	{% endfor %}
+    {% endif %}
+</head>
+<body>
+
+    <header class="section">
+
+        <div style="text-align: center">
+
+            <nav class="clearfix">
+
+                <ul>
+
+                    <li><a href="../feed/">Home</a></li>
+                    <li><a href="../message/">Messaging</a></li>
+                    <li><a href="../profile/">Profile</a></li>
+                    <li><a href="#">Sips+</a></li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <div>
+
+        <img src="{% static 'avatar.png' %}" alt="profile image" class="rounded-corners" />
+        <h2>User Profile</h2>
+
+        <form action="#" method="post">
+
+            <ul class="container">
+                <li><b>Change Username</b></li> <!-- clickable for popup to change username? -->
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                <li><a href="../themeselection/">Change Theme</a></li>
+            </ul>
+
+        </form>
+
+        <div class="footer">
+
+            <div class="section-inner">
+
+                <p>Feed</p>
+                <p>Messages</p>
+                <p>Profile</p>
+                <p>Search</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

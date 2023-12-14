@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Main Page</title>
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 900px)">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 400px)">
+	<link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 300px)">
+	<link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 200px)">
+	<link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 100px)">
+	<link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 50px)">
+	<link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 25px)">
+
+    {% if user_themes %}
+    	{% for theme in user_themes %}
+            {% if theme == selected_theme %}
+            	<link rel="stylesheet" href="{% static ''|add:theme %}.css">
+            {% endif %}
+    	{% endfor %}
+    {% endif %}
+</head>
+<body>
+
+    <div class="header">
+		<div class="section-inner">
+		   <h1>Sips</h1>
+		</div>
+	</div>
+
+    <div class="nav">
+
+		<div class="section-inner">
+
+			<nav class="clearfix">
+
+                <ul>
+
+                    <li><a href="../feed/">Home</a></li>
+                    <li><a href="../message/">Messaging</a></li>
+                    <li><a href="../profile/">Profile</a></li>
+                    <li><a href="#">Sips+</a></li>
+
+                </ul>
+
+            </nav>
+
+		</div>
+
+	</div>
+
+</body>
+</html>

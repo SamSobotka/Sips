@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
+    <title>Themes</title>
+
+    {% if user_themes %}
+    	{% for theme in user_themes %}
+            {% if theme == selected_theme %}
+            	<link rel="stylesheet" href="{% static ''|add:theme %}.css">
+            {% endif %}
+    	{% endfor %}
+    {% endif %}
+</head>
+<body>
+
+    <div class="header">
+        <div class="section-inner">
+            <h1>Sips</h1>
+        </div>
+    </div>
+
+    <div class="nav">
+
+        <div class="section-inner">
+
+            <nav class="clearfix">
+
+                <ul>
+
+                    <li><a href="../feed/">Home</a></li>
+                    <li><a href="../message/">Messaging</a></li>
+                    <li><a href="../profile/">Profile</a></li>
+                    <li><a href="#">Sips+</a></li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div id="pickthemes">
+
+            <h2>Choose your theme</h2>
+
+            <div class="row">
+
+                {% for theme in descriptions %}
+
+                    <div class="col-md-4">
+
+                        <div class="marketplace-item">
+
+                            <div class="marketplace-item-description">{{ theme.1 }}</div>
+
+                            <form action="#" method="get" id="{{ theme.0 }}">
+
+                                <input type="submit" value="Select" name="{{ theme.0 }}">
+
+                                {% if 'theme_'|add:selected_theme == theme.0 %}
+                                	<span style="font-size: 14px; color: #4CAF50; background-color: #f9f9f9; padding: 2px 5px; border-radius: 5px">
+                                        Selected
+                                    </span>
+                                {% endif %}
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <a href="../profile/">Back to Profile</a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
+</head>
+<body>
+
+    <h1>Register for Sips</h1>
+
+    <header class="section">
+
+        <div style="text-align: center">
+
+            <nav class="clearfix">
+
+                <ul>
+
+                    <li><a href="../feed/">Home</a></li>
+                    <li><a href="../message/">Messaging</a></li>
+                    <li><a href="../profile/">Profile</a></li>
+                    <li><a href="#">Sips+</a></li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <form method="post"> {% csrf_token %}
+
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+
+    </form>
+
+</body>
+</html>
