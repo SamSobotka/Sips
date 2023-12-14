@@ -58,10 +58,16 @@ def password_reset(request):
 @login_required
 def post(request):  # in progress - Zach
     template = loader.get_template('post.html')
+    form = forms.PostForm(request.POST)
     context = {
         'user_themes': get_user_themes(request),
-        'selected_theme': request.session.get(key='selected_theme')
+        'selected_theme': request.session.get(key='selected_theme'),
+        'form': form
     }
+
+    if form.is_valid():
+        form.save()
+        return redirect('/feed/')
 
     return HttpResponse(template.render(context, request))
 
