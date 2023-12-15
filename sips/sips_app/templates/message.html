@@ -52,11 +52,11 @@
   
         <div class="input-container">
 
-     <form action="{% url 'profile' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Send Message">
-    </form>
+        <form action="{% url 'profile' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Send Message">
+        </form>
 
         </div>
 
