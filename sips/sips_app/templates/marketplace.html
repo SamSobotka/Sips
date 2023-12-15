@@ -122,47 +122,21 @@
 
             <div class="row">
 
-                <div class="col-md-4">
+                {% for theme in themes %}
 
-                    <div class="marketplace-item">
+                    <div class="col-md-4">
 
-                        <div class="marketplace-item-image"><img src="images/4.jpg" alt="Item 4"></div>
-                        <div class="marketplace-item-title">Item 4</div>
-                        <div class="marketplace-item-price">4000 points</div>
-                        <div class="marketplace-item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget tempor aliquam, nunc libero ultricies nunc, nec ultricies nisl nunc eget nunc. </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
+                        <form class="marketplace-item" method="get" action="#">
 
-                    </div>
+                            <div class="marketplace-item-title">{{ theme.description }}</div>
+                            <div class="marketplace-item-price">{{ theme.cost }} points</div>
+                            <input type="submit" class="marketplace-item-button" value="Redeem">
 
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="marketplace-item">
-
-                        <div class="marketplace-item-image"><img src="images/5.jpg" alt="Item 5"></div>
-                        <div class="marketplace-item-title">Item 5</div>
-                        <div class="marketplace-item-price">5000 points</div>
-                        <div class="marketplace-item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget tempor aliquam, nunc libero ultricies nunc, nec ultricies nisl nunc eget nunc. </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
+                        </form>
 
                     </div>
 
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="marketplace-item">
-
-                        <div class="marketplace-item-image"><img src="images/6.jpg" alt="Item 6"></div>
-                        <div class="marketplace-item-title">Item 6</div>
-                        <div class="marketplace-item-price">6000 points</div>
-                        <div class="marketplace-item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget tempor aliquam, nunc libero ultricies nunc, nec ultricies nisl nunc eget nunc. </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
-
-                    </div>
-
-                </div>
+                {% endfor %}
 
             </div>
 
@@ -176,46 +150,23 @@
 
             <div class="row">
 
-                <div class="col-md-4">
+                {% for avatar in avatars %}
 
-                    <div class="marketplace-item">
-                        <div class="marketplace-item-image"><img src="images/7.jpg" alt="Item 7"></div>
-                        <div class="marketplace-item-title">Item 7</div>
-                        <div class="marketplace-item-price">7000 points</div>
-                        <div class="marketplace-item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget tempor aliquam, nunc libero ultricies nunc, nec ultricies nisl nunc eget nunc. </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
+                    <div class="col-md-4">
 
-                    </div>
+                        <form class="marketplace-item">
 
-                </div>
+                            <div class="marketplace-item-image"><img src="{% static forloop.counter %}.jpg" alt="image {{ forloop.counter }}"></div>
+                            <div class="marketplace-item-title">Avatar</div>
+                            <div class="marketplace-item-description">{{ avatar.description }}</div>
+                            <div class="marketplace-item-price">{{ avatar.price }} points</div>
+                            <input type="submit" class="marketplace-item-button" value="Redeem">
 
-                <div class="col-md-4">
-
-                    <div class="marketplace-item">
-
-                        <div class="marketplace-item-image"><img src="images/8.jpg" alt="Item 8"></div>
-                        <div class="marketplace-item-title">Item 8</div>
-                        <div class="marketplace-item-price">8000 points</div>
-                        <div class="marketplace-item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget tempor aliquam, nunc libero ultricies nunc, nec ultricies nisl nunc eget nunc. </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
+                        </form>
 
                     </div>
 
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="marketplace-item">
-
-                        <div class="marketplace-item-image"><img src="images/9.jpg" alt="Item 9"></div>
-                        <div class="marketplace-item-title">Item 9</div>
-                        <div class="marketplace-item-price">9000 points</div>
-                        <div class="marketplace-item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget tempor aliquam, nunc libero ultricies nunc, nec ultricies nisl nunc eget nunc. </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
-
-                    </div>
-
-                </div>
+                {% endfor %}
 
             </div>
 
