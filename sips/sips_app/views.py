@@ -137,10 +137,26 @@ def about(request):
 @login_required
 def marketplace(request):  # in progress - Me
     template = loader.get_template('marketplace.html')
+
+    themes = [
+        item
+        for item in models.Item.objects.all().values()
+        if 'theme_' in item['itemname']
+    ]
+
+    avatars = [
+        item
+        for item in models.Item.objects.all().values()
+        if 'avatar_' in item['itemname']
+    ]
+
     context = {
         'user_themes': get_user_themes(request),
-        'selected_theme': request.session.get(key='selected_theme')
+        'selected_theme': request.session.get(key='selected_theme'),
+        'themes': themes,
+        'avatars': avatars
     }
+
     return HttpResponse(template.render(context, request))
 
 
