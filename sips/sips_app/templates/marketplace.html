@@ -29,6 +29,16 @@
 
     <h3>Redeem your points here</h3>
 
+    <h4>Points: {{ points }}</h4>
+
+    {% if messages %}
+    	<ul class="messages">
+            {% for message in messages %}
+            	<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <div class="nav">
 
         <div class="section-inner">
@@ -62,60 +72,6 @@
 
     </div>
 
-    <div id="marketplace">
-
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col-md-4">
-
-                    <div class="marketplace-item">
-
-                        <div class="marketplace-item-image"><img src="images/1.jpg" alt="Item 1"></div>
-                        <div class="marketplace-item-title">Item 1</div>
-                        <div class="marketplace-item-price">1000 points</div>
-                        <div class="marketplace-item-description">Dark Mode!!! </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="marketplace-item">
-
-                        <div class="marketplace-item-image"><img src="images/2.jpg" alt="Item 2"></div>
-                        <div class="marketplace-item-title">Item 2</div>
-                        <div class="marketplace-item-price">2000 points</div>
-                        <div class="marketplace-item-description"> High Contrast Mode </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="marketplace-item">
-
-                        <div class="marketplace-item-image"><img src="images/3.jpg" alt="Item 3"></div>
-                        <div class="marketplace-item-title">Item 3</div>
-                        <div class="marketplace-item-price">3000 points</div>
-                        <div class="marketplace-item-description">Custom Theme </div>
-                        <div class="marketplace-item-button"><a href="#">Redeem</a></div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
     <div id="themes">
 
         <div class="container">
@@ -130,7 +86,7 @@
 
                             <div class="marketplace-item-title">{{ theme.description }}</div>
                             <div class="marketplace-item-price">{{ theme.cost }} points</div>
-                            <input type="submit" class="marketplace-item-button" value="Redeem">
+                            <input type="submit" class="marketplace-item-button" value="Redeem" name="{{ theme.itemname }}">
 
                         </form>
 
@@ -159,8 +115,8 @@
                             <div class="marketplace-item-image"><img src="{% static forloop.counter %}.jpg" alt="image {{ forloop.counter }}"></div>
                             <div class="marketplace-item-title">Avatar</div>
                             <div class="marketplace-item-description">{{ avatar.description }}</div>
-                            <div class="marketplace-item-price">{{ avatar.price }} points</div>
-                            <input type="submit" class="marketplace-item-button" value="Redeem">
+                            <div class="marketplace-item-price">{{ avatar.cost }} points</div>
+                            <input type="submit" class="marketplace-item-button" value="Redeem" name="{{ avatar.itemname }}">
 
                         </form>
 

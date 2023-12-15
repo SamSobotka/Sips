@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login as auth_login, views
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -137,11 +138,25 @@ def about(request):
 def marketplace(request):  # in progress - Me
     template = loader.get_template('marketplace.html')
 
+    user_themes = get_user_themes(request)
+
     themes = [
         item
         for item in models.Item.objects.all().values()
         if 'theme_' in item['itemname']
     ]
+
+    for item in models.Item.objects.all():
+        if request.GET.get(item.itemname) and 'theme_' in item.itemname:
+            if request.user.points < item.cost:
+                messages.error(request, 'Not enough points!')
+            elif item.itemname.replace('theme_', '') in user_themes:
+                messages.error(request, 'You already have this theme!')
+            else:
+                models.Transaction.objects.create(itemid=item, userid=request.user)
+                request.user.points -= item.cost
+                request.user.save()
+                messages.success(request, 'Successfully purchased ' + item.description)
 
     avatars = [
         item
@@ -149,11 +164,24 @@ def marketplace(request):  # in progress - Me
         if 'avatar_' in item['itemname']
     ]
 
+    for item in models.Item.objects.all():
+        if request.GET.get(item.itemname) and 'avatar_' in item.itemname:
+            if request.user.points < item.cost:
+                messages.error(request, 'Not enough points!')
+            elif item.itemname.replace('avatar_', '') in user_themes:
+                messages.error(request, 'You already have this theme!')
+            else:
+                models.Transaction.objects.create(itemid=item, userid=request.user)
+                request.user.points -= item.cost
+                request.user.save()
+                messages.success(request, 'Successfully purchased ' + item.description)
+
     context = {
-        'user_themes': get_user_themes(request),
+        'user_themes': user_themes,
         'selected_theme': request.session.get(key='selected_theme'),
         'themes': themes,
-        'avatars': avatars
+        'avatars': avatars,
+        'points': request.user.points
     }
 
     return HttpResponse(template.render(context, request))
