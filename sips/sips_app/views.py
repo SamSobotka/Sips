@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
+from .models import Post
+from django.shortcuts import render
 
 from . import forms, models
 
@@ -31,13 +33,12 @@ def home(request):
 
 
 @login_required
-def feed(request):  # in progress - Zach
-    template = loader.get_template('feed.html')
-    context = {
-        'user_themes': get_user_themes(request),
-        'selected_theme': request.session.get(key='selected_theme')
-    }
-    return HttpResponse(template.render(context, request))
+def feed(request):
+    posts = Post.objects.all().order_by('-created_at')
+    return render(request, 'feed.html', {'posts': posts})
+
+
+
 
 
 @login_required
