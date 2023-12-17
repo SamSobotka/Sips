@@ -35,3 +35,5 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'rows': 5, 'cols': 40}),
         }
+        class MessageForm(forms.Form):
+    message = forms.CharField(label='Message', widget=forms.Textarea)
