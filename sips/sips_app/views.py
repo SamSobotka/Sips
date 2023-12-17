@@ -97,6 +97,15 @@ def message(request):
         'recent_messages': dict_recent_messages
     }
 
+    if request.method == 'POST':
+        if 'content' in request.POST and 'handle' in request.POST:
+            new_message = models.Message.objects.create(
+                content=request.POST.get('content'),
+                senderid=request.user,
+                recipientid=models.User.objects.get(handle=request.POST.get('handle'))
+            )
+            new_message.save()
+
     return HttpResponse(template.render(context, request))
 
 

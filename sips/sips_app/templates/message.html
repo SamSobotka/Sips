@@ -47,6 +47,16 @@
             	<div class="message">
                     <a href="../messaging/{{ sender.userid }}">{{ sender.handle }}</a>: {{ message }}
                 </div>
+            {% empty %}
+                <form action="#" method="post">{% csrf_token %}
+                    <h2>No messages yet!</h2>
+                    <p>Message someone:</p>
+                    <label>Handle: <input type="text" name="handle"></label>
+                    <br>
+                    <label>Message: <input type="text" name="content"></label>
+                    <input type="submit" value="Send">
+                </form>
+
             {% endfor %}
         </div>
 
