@@ -74,27 +74,26 @@ def user_post(request, postid):
 @login_required
 def message(request):
     template = loader.get_template('message.html')
-    recipients = {
-        user_message.recipientid
+    senders = {
+        user_message.senderid
         for user_message in models.Message.objects.filter(recipientid=request.user).distinct()
     }
 
     most_recent_messages = [
-        models.Message.objects.filter(senderid=recipient).order_by('-date_created').first().content
-        for recipient in recipients
+        models.Message.objects.filter(senderid=sender, recipientid=request.user).order_by('-date_created').first().content
+        for sender in senders
     ]
 
     dict_recent_messages = {
         sender: message_
         for (sender, message_)
-        in zip(recipients, most_recent_messages)
+        in zip(senders, most_recent_messages)
     }
 
-    print(recipients)
     context = {
         'user_themes': get_user_themes(request),
         'selected_theme': request.session.get(key='selected_theme'),
-        'recipients': recipients,
+        'senders': senders,
         'recent_messages': dict_recent_messages
     }
 
@@ -103,12 +102,12 @@ def message(request):
 
 def messaging(request, userid):
     template = loader.get_template('messaging.html')
-    recipient = models.User.objects.get(userid=userid)
+    sender = models.User.objects.get(userid=userid)
     form = forms.MessageForm(request.POST)
 
     all_messages = models.Message.objects.filter(
-        Q(recipientid=request.user, senderid=recipient) |
-        Q(recipientid=recipient, senderid=request.user)
+        Q(recipientid=request.user, senderid=sender) |
+        Q(recipientid=sender, senderid=request.user)
     ).order_by('date_created')
 
     print(all_messages)
@@ -116,7 +115,7 @@ def messaging(request, userid):
     context = {
         'user_themes': get_user_themes(request),
         'selected_theme': request.session.get(key='selected_theme'),
-        'recipient': recipient,
+        'sender': sender,
         'messages': all_messages,
         'form': form
     }
@@ -126,7 +125,7 @@ def messaging(request, userid):
             new_message = models.Message.objects.create(
                 content=request.POST.get('content'),
                 senderid=request.user,
-                recipientid=recipient
+                recipientid=sender
             )
             new_message.save()
 

@@ -40,11 +40,15 @@
 
     <div class="container">
 
-        <h1>Messages from @{{ recipient.handle }}</h1>
+        <h1>Messages from @{{ sender.handle }}</h1>
 
         {% for message in messages %}
         	<div class="message user-message">
-                <strong>@{{ recipient.handle }}</strong> {{ message.content }}
+                {% if message.senderid == sender %}
+                	<strong>@{{ sender.handle }}</strong> {{ message.content }}
+                {% else %}
+                    <strong>@{{ request.user.handle }}</strong> {{ message.content }}
+                {% endif %}
             </div>
         {% endfor %}
 
