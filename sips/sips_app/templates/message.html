@@ -17,18 +17,18 @@
     {% endif %}
 </head>
 <body>
-    <header class="section">
+    <div class="nav">
 
-        <div style="text-align: center">
+        <div class="section-inner">
 
             <nav class="clearfix">
 
                 <ul>
 
-                    <li><a href="../feed/">Home</a></li>
-                    <li><a href="../message/">Messaging</a></li>
-                    <li><a href="../profile/">Profile</a></li>
-                    <li><a href="#">Sips+</a></li>
+                    <li><a href="{% url 'feed' %}">Feed</a></li>
+                    <li><a href="{% url 'message' %}">Messaging</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'marketplace' %}">Marketplace</a></li>
 
                 </ul>
 
@@ -36,28 +36,18 @@
 
         </div>
 
-    </header>
+    </div>
 
     <div class="container">
 
         <div class="message">Welcome to the messaging page!</div>
-        <!-- Django stuff from database goes here -->
-        <div class="message user-message">
-            <strong>User:</strong> Hello there!
-        </div>
-  
-        <div class="message">
-            <strong>Admin:</strong> Welcome! How can I assist you today?
-        </div>
-  
-        <div class="input-container">
-
-        <form action="{% url 'profile' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Send Message">
-        </form>
-
+        
+        <div id="messages">
+            {% for sender, message in recent_messages.items %}
+            	<div class="message">
+                    <a href="../messaging/{{ sender.userid }}">{{ sender.handle }}</a>: {{ message }}
+                </div>
+            {% endfor %}
         </div>
 
     </div>

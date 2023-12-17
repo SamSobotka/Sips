@@ -17,18 +17,6 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(label='Email')
 
 
-# class PostForm(forms.ModelForm):
-#     userid = forms.CharField(widget=forms.HiddenInput(), required=False)
-#
-#     class Meta:
-#         model = models.Post
-#         # content, title
-#         fields = ["title", "content"]
-#         widgets = {
-#             'content': forms.Textarea(attrs={'rows': 5, 'cols': 40}),
-#         }
-
-
 class CommentForm(forms.ModelForm):  # comments coming soon!
     class Meta:
         model = models.Comment

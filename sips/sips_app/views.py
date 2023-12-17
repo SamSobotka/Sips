@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, views
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
@@ -53,12 +54,12 @@ def user_post(request, postid):
         if request.user in post.likes.all():
             post.likes.remove(request.user)
             post.save()
-            post.userid.points += 1
+            post.userid.points -= 1
             post.userid.save()
         else:
             post.likes.add(request.user)
             post.save()
-            post.userid.points -= 1
+            post.userid.points += 1
             post.userid.save()
 
     context = {
@@ -73,16 +74,61 @@ def user_post(request, postid):
 @login_required
 def message(request):
     template = loader.get_template('message.html')
-    form = forms.MessageForm(request.POST)
+    recipients = {
+        user_message.recipientid
+        for user_message in models.Message.objects.filter(recipientid=request.user).distinct()
+    }
+
+    most_recent_messages = [
+        models.Message.objects.filter(senderid=recipient).order_by('-date_created').first().content
+        for recipient in recipients
+    ]
+
+    dict_recent_messages = {
+        sender: message_
+        for (sender, message_)
+        in zip(recipients, most_recent_messages)
+    }
+
+    print(recipients)
     context = {
         'user_themes': get_user_themes(request),
         'selected_theme': request.session.get(key='selected_theme'),
+        'recipients': recipients,
+        'recent_messages': dict_recent_messages
+    }
+
+    return HttpResponse(template.render(context, request))
+
+
+def messaging(request, userid):
+    template = loader.get_template('messaging.html')
+    recipient = models.User.objects.get(userid=userid)
+    form = forms.MessageForm(request.POST)
+
+    all_messages = models.Message.objects.filter(
+        Q(recipientid=request.user, senderid=recipient) |
+        Q(recipientid=recipient, senderid=request.user)
+    ).order_by('date_created')
+
+    print(all_messages)
+
+    context = {
+        'user_themes': get_user_themes(request),
+        'selected_theme': request.session.get(key='selected_theme'),
+        'recipient': recipient,
+        'messages': all_messages,
         'form': form
     }
 
-    if form.is_valid():
-        new_message = form.cleaned_data['message']
-        return HttpResponse(new_message)
+    if request.method == 'POST':
+        if 'content' in request.POST:
+            new_message = models.Message.objects.create(
+                content=request.POST.get('content'),
+                senderid=request.user,
+                recipientid=recipient
+            )
+            new_message.save()
 
     return HttpResponse(template.render(context, request))
 

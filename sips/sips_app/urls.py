@@ -16,4 +16,5 @@ urlpatterns = [
     path('marketplace/', views.marketplace, name='marketplace'),
     path('themeselection/', views.themeselection, name='themeselection'),
     path('feed/post/<int:postid>', views.user_post, name='user_post'),
+    path('messaging/<int:userid>', views.messaging, name='messaging')
 ]

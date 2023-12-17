@@ -17,20 +17,50 @@
     {% endif %}
 </head>
 <body>
+
+    <div class="nav">
+
+		<div class="section-inner">
+
+			<nav class="clearfix">
+
+                <ul>
+
+                    <li><a href="{% url 'feed' %}">Feed</a></li>
+                    <li><a href="{% url 'message' %}">Messaging</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'marketplace' %}">Marketplace</a></li>
+
+                </ul>
+
+            </nav>
+
+		</div>
+
+	</div>
+
     <script src="{% static 'javascriptform.js' %}"></script>
+
     <h1>Create Post</h1>
+
     <form method="post" action="#">{% csrf_token %}
+
         <label for="subject">Subject:</label>
         <input type="text" id="subject" name="subject" required><br><br>
 
         <label for="content">Post Content (Maximum 500 Characters):</label>
+
         <textarea id="content" name="content" rows="4" cols="50" maxlength="500" onkeydown="function f() {
             updateCharacterCount(document.getElementById('content'))
             validateForm()
-        }" required></textarea><br><br>
-        <span id="characterCount">500 characters remaining</span><br><br>
-
+        }" required></textarea>
+        <br>
+        <br>
+        <span id="characterCount">500 characters remaining</span>
+        <br>
+        <br>
         <input type="submit" value="Submit">
+
     </form>
 
 </body>

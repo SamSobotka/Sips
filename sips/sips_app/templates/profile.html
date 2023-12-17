@@ -21,6 +21,12 @@
 </head>
 <body>
 
+    <div class="header">
+		<div class="section-inners">
+		   <h1>Profile</h1>
+		</div>
+	</div>
+
     <div class="nav">
 
         <div class="section-inner">
@@ -29,10 +35,10 @@
 
                 <ul>
 
-                    <li><a href="../feed/">Home</a></li>
-                    <li><a href="../message/">Messaging</a></li>
-                    <li><a href="../profile/">Profile</a></li>
-                    <li><a href="#">Sips+</a></li>
+                    <li><a href="{% url 'feed' %}">Feed</a></li>
+                    <li><a href="{% url 'message' %}">Messaging</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'marketplace' %}">Marketplace</a></li>
 
                 </ul>
 
@@ -51,32 +57,23 @@
             <p>{{ request.user.bio }}</p>
         </div>
 
-    </div>
+        <div class="container">
+            <form action="#" method="post">{% csrf_token %}
 
-    <form action="#" method="post">{% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Update Profile">
 
-        {{ form.as_p }}
-        <input type="submit" value="Update Profile">
-
-    </form>
-
-    <div class="footer">
-
-        <ul class="container">
-            <li><a href="{% url 'logout' %}">Log Out</a></li>
-            <li><a href="../themeselection/">Change Theme</a></li>
-        </ul>
-
-        <div class="section-inner">
-
-            <p>Feed</p>
-            <p>Messages</p>
-            <p>Profile</p>
-            <p>Search</p>
-
+            </form>
         </div>
 
     </div>
+
+
+
+    <ul class="container">
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+        <li><a href="../themeselection/">Change Theme</a></li>
+    </ul>
 
 </body>
 </html>

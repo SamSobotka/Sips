@@ -146,6 +146,7 @@ class Message(models.Model):
     senderid = models.ForeignKey('User', models.CASCADE, db_column='senderID', related_name='sender_set')
     recipientid = models.ForeignKey('User', models.CASCADE, db_column='recipientID', related_name='recipient_set')
     content = models.TextField()
+    date_created = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'Message'

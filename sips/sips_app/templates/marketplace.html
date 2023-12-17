@@ -23,11 +23,11 @@
 </head>
 <body>
 
-    <h1>Sips Marketplace</h1>
-
-    <h2>Coming soon... Sips+</h2>
-
-    <h3>Redeem your points here</h3>
+    <div class="header">
+        <div class="section-inner">
+            <h1>Buy More Tea</h1>
+        </div>
+    </div>
 
     <h4>Points: {{ points }}</h4>
 
@@ -47,26 +47,14 @@
 
                 <ul>
 
-                    <li><a href="../feed/">Home</a></li>
-                    <li><a href="../message/">Messaging</a></li>
-                    <li><a href="../profile/">Profile</a></li>
-                    <li><a href="#">Sips+</a></li>
+                    <li><a href="{% url 'feed' %}">Feed</a></li>
+                    <li><a href="{% url 'message' %}">Messaging</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'marketplace' %}">Marketplace</a></li>
 
                 </ul>
 
             </nav>
-
-        </div>
-
-        <div class="notifications">
-
-            <div class="section-inner">
-
-                <ul class="clearfix">
-                    <li><a href="../notifications/">Notifications</a></li>
-                </ul>
-
-            </div>
 
         </div>
 

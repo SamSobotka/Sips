@@ -27,7 +27,7 @@
 
     <div class="header">
 		<div class="section-inner">
-		   <h1>Sips</h1>
+		   <h1>Sips Feed</h1>
 		</div>
 	</div>
 
@@ -39,10 +39,10 @@
 
                 <ul>
 
-                    <li><a href="{% url 'feed' %}">Home</a></li>
+                    <li><a href="{% url 'feed' %}">Feed</a></li>
                     <li><a href="{% url 'message' %}">Messaging</a></li>
                     <li><a href="{% url 'profile' %}">Profile</a></li>
-                    <li><a href="#">Sips+</a></li>
+                    <li><a href="{% url 'marketplace' %}">Marketplace</a></li>
 
                 </ul>
 
@@ -59,7 +59,9 @@
         {% for post in posts %}
 
             <div class="post-container">
-                <a href="post/{{ post.postid }}" id="{{ post.postid }}">{{ post.title }} by {{ post.userid.handle }}</a>
+                <div class="post">
+                    <a href="post/{{ post.postid }}" id="{{ post.postid }}">{{ post.title }} by {{ post.userid.handle }}</a>
+                </div>
             </div>
 
         {% endfor %}

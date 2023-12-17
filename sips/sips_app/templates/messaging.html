@@ -1,9 +1,9 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ post.title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <title></title>
     <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
     <link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 900px)">
 
@@ -17,17 +17,11 @@
 </head>
 <body>
 
-    <div class="header">
-		<div class="section-inner">
-		   <h1>Sips</h1>
-		</div>
-	</div>
-
     <div class="nav">
 
-		<div class="section-inner">
+        <div class="section-inner">
 
-			<nav class="clearfix">
+            <nav class="clearfix">
 
                 <ul>
 
@@ -40,26 +34,31 @@
 
             </nav>
 
-		</div>
-
-	</div>
-
-    <div class="post-container">
-
-        <h2>{{ post.title }}</h2>
-        <h3>@{{ post.userid.handle }}</h3>
-        <p>{{ post.content }}</p>
-        <form id="likes" method="post">
-            {% csrf_token %}
-            {{ likes|length }} likes
-            <input type="submit"
-                   value="{% if request.user not in likes %}Like{% else %}Unlike{% endif %}"
-                   name="like">
-        </form>
-        <p>Comments coming soon!</p>
-        <br>
-        <a href="{% url 'feed' %}#{{ post.postid }}">Back to Feed</a>
+        </div>
 
     </div>
+
+    <div class="container">
+
+        <h1>Messages from @{{ recipient.handle }}</h1>
+
+        {% for message in messages %}
+        	<div class="message user-message">
+                <strong>@{{ recipient.handle }}</strong> {{ message.content }}
+            </div>
+        {% endfor %}
+
+        <div class="input-container">
+
+            <form action="#" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Send Message">
+            </form>
+
+        </div>
+
+    </div>
+
 </body>
 </html>
