@@ -4,8 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
-from .models import Post
-from django.shortcuts import render
 
 from . import forms, models
 
@@ -35,20 +33,51 @@ def home(request):
 
 @login_required
 def feed(request):
-    posts = Post.objects.all().order_by('-created_at')
-    return render(request, 'feed.html', {'posts': posts})
+    template = loader.get_template('feed.html')
+    posts = models.Post.objects.all().order_by('-postid')
 
-
-
+    context = {
+        'user_themes': get_user_themes(request),
+        'selected_theme': request.session.get(key='selected_theme'),
+        'posts': posts
+    }
+    return HttpResponse(template.render(context, request))
 
 
 @login_required
-def message(request):  # in progress - Gianna
+def user_post(request, postid):
+    template = loader.get_template('user_post.html')
+    post = models.Post.objects.get(postid=postid)
+
+    if request.POST.get('like'):
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+            post.save()
+            post.userid.points += 1
+            post.userid.save()
+        else:
+            post.likes.add(request.user)
+            post.save()
+            post.userid.points -= 1
+            post.userid.save()
+
+    context = {
+        'user_themes': get_user_themes(request),
+        'selected_theme': request.session.get(key='selected_theme'),
+        'post': post,
+        'likes': post.likes.all()
+    }
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def message(request):
     template = loader.get_template('message.html')
     form = forms.MessageForm(request.POST)
     context = {
         'user_themes': get_user_themes(request),
-        'selected_theme': request.session.get(key='selected_theme')
+        'selected_theme': request.session.get(key='selected_theme'),
+        'form': form
     }
 
     if form.is_valid():
@@ -64,40 +93,47 @@ def password_reset(request):
 
 
 @login_required
-def post(request):  # in progress - Zach
-    template = loader.get_template('post.html')
-    form = forms.PostForm(request.POST)
+def create_post(request):
+    template = loader.get_template('create_post.html')
+
+    context = {
+        'user_themes': get_user_themes(request),
+        'selected_theme': request.session.get(key='selected_theme'),
+    }
+
+    if request.method == 'POST':
+        if 'subject' in request.POST and 'content' in request.POST:
+            new_post = models.Post.objects.create(
+                title=request.POST.get('subject'),
+                content=request.POST.get('content'),
+                userid=request.user
+            )
+            new_post.save()
+            return redirect('/feed/')
+
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def profile(request):
+    template = loader.get_template('profile.html')
+    form = forms.ProfileForm(request.POST, instance=request.user)
     context = {
         'user_themes': get_user_themes(request),
         'selected_theme': request.session.get(key='selected_theme'),
         'form': form
     }
 
-    if form.is_valid():
-        form.save()
-        return redirect('/feed/')
-
-    return HttpResponse(template.render(context, request))
-
-
-@login_required
-def profile(request):  # in progress - Gianna
-    template = loader.get_template('profile.html')
-    context = {
-        'user_themes': get_user_themes(request),
-        'selected_theme': request.session.get(key='selected_theme')
-    }
+    old_bio = request.user.bio
 
     if request.method == 'POST':
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
+        if form.is_valid():
+            update_profile = form.save(commit=False)
 
-        if not first_name or not last_name:
-            return HttpResponse("Please enter valid first and last names.")
+            if request.POST.get('bio') == '':
+                update_profile.bio = old_bio
 
-        username = first_name[0].lower() + last_name[0].lower()
-
-        return HttpResponse("Your username is: " + username)
+            update_profile.save()
 
     return HttpResponse(template.render(context, request))
 
@@ -107,7 +143,7 @@ class LoginView(views.LoginView):
     template_name = 'registration/login.html'
 
 
-def register(request):  # in-progress 💀 - Me - fixed!
+def register(request):
     template = loader.get_template('registration/register.html')
     context = {}
     form = forms.RegisterForm(request.POST)
@@ -136,7 +172,7 @@ def about(request):
 
 
 @login_required
-def marketplace(request):  # in progress - Me
+def marketplace(request):
     template = loader.get_template('marketplace.html')
 
     user_themes = get_user_themes(request)
@@ -189,7 +225,7 @@ def marketplace(request):  # in progress - Me
 
 
 @login_required
-def themeselection(request):  # in progress - Me - done 💀
+def themeselection(request):
     template = loader.get_template('themeselection.html')
     user_themes = get_user_themes(request)
 

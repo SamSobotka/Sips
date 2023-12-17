@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }}</title>
+    <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}" media="screen and (max-width: 900px)">
+
+    {% if user_themes %}
+    	{% for theme in user_themes %}
+            {% if theme == selected_theme %}
+            	<link rel="stylesheet" href="{% static ''|add:theme %}.css">
+            {% endif %}
+    	{% endfor %}
+    {% endif %}
+</head>
+<body>
+
+    <div class="header">
+		<div class="section-inner">
+		   <h1>Sips</h1>
+		</div>
+	</div>
+
+    <div class="nav">
+
+		<div class="section-inner">
+
+			<nav class="clearfix">
+
+                <ul>
+
+                    <li><a href="{% url 'feed' %}">Home</a></li>
+                    <li><a href="{% url 'message' %}">Messaging</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="#">Sips+</a></li>
+
+                </ul>
+
+            </nav>
+
+		</div>
+
+	</div>
+
+    <div class="post-container">
+
+        <h2>{{ post.title }}</h2>
+        <h3>@{{ post.userid.handle }}</h3>
+        <p>{{ post.content }}</p>
+        <form id="likes" method="post">
+            {% csrf_token %}
+            {{ likes|length }} likes
+            <input type="submit"
+                   value="{% if request.user not in likes %}Like{% else %}Unlike{% endif %}"
+                   name="like">
+        </form>
+        <p>Comments coming soon!</p>
+        <br>
+        <a href="{% url 'feed' %}#{{ post.postid }}">Back to Feed</a>
+
+    </div>
+</body>
+</html>

@@ -21,9 +21,9 @@
 </head>
 <body>
 
-    <header class="section">
+    <div class="nav">
 
-        <div style="text-align: center">
+        <div class="section-inner">
 
             <nav class="clearfix">
 
@@ -40,42 +40,39 @@
 
         </div>
 
-    </header>
+    </div>
 
     <div>
-<body>
-            <img src="avatar.png" alt="profile image" class="rounded-corners" />
-            <div class="container">
-                <h3 id="output"></h3>
-            </div>
-        
-            <script src="results.js"></script>
-        
-                
-            </div>
 
-</body>
+        <img src="{% static 'avatar.png' %}" alt="profile image" class="rounded-corners" />
+        <div class="container">
+            <h3 id="output">Handle: @{{ request.user.handle }}</h3>
+            <h4>Email: {{ request.user.email }}</h4>
+            <p>{{ request.user.bio }}</p>
+        </div>
 
-        <form action="#" method="post">
+    </div>
 
-            <ul class="container">
-                <li><b>Change Username</b></li> <!-- clickable for popup to change username? -->
-                <li><a href="{% url 'logout' %}">Log Out</a></li>
-                <li><a href="../themeselection/">Change Theme</a></li>
-            </ul>
+    <form action="#" method="post">{% csrf_token %}
 
-        </form>
+        {{ form.as_p }}
+        <input type="submit" value="Update Profile">
 
-        <div class="footer">
+    </form>
 
-            <div class="section-inner">
+    <div class="footer">
 
-                <p>Feed</p>
-                <p>Messages</p>
-                <p>Profile</p>
-                <p>Search</p>
+        <ul class="container">
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            <li><a href="../themeselection/">Change Theme</a></li>
+        </ul>
 
-            </div>
+        <div class="section-inner">
+
+            <p>Feed</p>
+            <p>Messages</p>
+            <p>Profile</p>
+            <p>Search</p>
 
         </div>
 

@@ -73,8 +73,8 @@ class Post(models.Model):
     )
     userid = models.ForeignKey('User', models.CASCADE, db_column='userID')
     content = models.TextField()
-    title = models.TextField()
-    likes = models.IntegerField()
+    title = models.CharField(max_length=50)
+    likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
 
     class Meta:
         db_table = 'Post'
@@ -101,7 +101,7 @@ class Comment(models.Model):
     postid = models.ForeignKey('Post', models.CASCADE, db_column='postID')
     userid = models.ForeignKey('User', models.CASCADE, db_column='userID')
     content = models.TextField()
-    likes = models.IntegerField()
+    likes = models.ManyToManyField(User, related_name='liked_comments', blank=True)
 
     class Meta:
         db_table = 'Comment'

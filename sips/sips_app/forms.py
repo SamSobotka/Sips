@@ -17,17 +17,19 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(label='Email')
 
 
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = models.Post
-        # content, title
-        fields = ["content", "title"]
-        widgets = {
-            'content': forms.Textarea(attrs={'rows': 5, 'cols': 40}),
-        }
+# class PostForm(forms.ModelForm):
+#     userid = forms.CharField(widget=forms.HiddenInput(), required=False)
+#
+#     class Meta:
+#         model = models.Post
+#         # content, title
+#         fields = ["title", "content"]
+#         widgets = {
+#             'content': forms.Textarea(attrs={'rows': 5, 'cols': 40}),
+#         }
 
 
-class CommentForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):  # comments coming soon!
     class Meta:
         model = models.Comment
         # content
@@ -35,5 +37,15 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'rows': 5, 'cols': 40}),
         }
-        class MessageForm(forms.ModelForm):
-    message = forms.CharField(label='Message', widget=forms.Textarea)
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = models.Message
+        fields = ['content']
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = models.User
+        fields = ['handle', 'bio', 'email']
