@@ -109,6 +109,7 @@ def message(request):
     return HttpResponse(template.render(context, request))
 
 
+@login_required
 def messaging(request, userid):
     template = loader.get_template('messaging.html')
     sender = models.User.objects.get(userid=userid)
